@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <div id="root"></div>
+  </body>
+  <script
+    crossorigin
+    src="https://unpkg.com/react@18/umd/react.production.min.js"
+  ></script>
+  <script
+    crossorigin
+    src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+  ></script>
+  <!-- React를 html코드처럼 사용할수 있게 도와주는 변환기 -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- React JS가 html을 업데이트해주는 기본적인 방식 -->
+  <!-- <script>   
+    const root = document.getElementById('root');
+    // const span = React.createElement('span', {id:'sexy-span'},'hello');
+    const h3 = React.createElement(
+        "h3" ,
+        {
+            id:'title',
+            onMouseEnter:() => console.log("mouse enter"),
+        },'hello')
+    const btn = React.createElement(
+        "button" ,
+        {
+            onClick:() => console.log("im clicked"),
+            style:{
+                backgroundcolor:"tomato",
+            }
+        }, 'click me');//()괄호안에 들어간 이름은 꼭  html에서 사용하는 태그이름을 적어야한다.
+    
+
+
+    const container = React.createElement("div", null, [h3,btn])
+    ReactDOM.render(container,root);
+</script> -->
+
+  <!-- JSX는  어플리케이션을 여러가지 작은요소로 나누워 관리 할 수 있게 해준다. -->
+
+  <!-- babel을 이용하여 createElement를 대체하여 더 간결한 코드를 짜는 방법 -->
+  <script type="text/babel">
+    const root = document.getElementById("root");
+
+    const Title = () => (
+      <h3 id="title" onMouseEnter={() => console.log("mouse enter")}>
+        hello
+      </h3>
+      //   babel변환기를 사용하여 html코드와 같은 형태로 코드를 작성할수있다.
+    );
+
+    // function Title(){
+    //     return(
+    //         <h3 id="title" onMouseEnter={() => console.log("mouse enter")}>
+    //             hello
+    //         </h3>
+    //     );
+    // } // = () => {} arrow 함수과 같은 의미이다. arrow founcion으로 더욱 간결하게 코드를 작성할 수 있다.
+    //arrow 함수 은 founction과 return을 포함하고 있는 것
+
+    const Button = () => (
+      <button
+        style={{ backgroundColor: "tomato" }}
+        onClick={() => console.log("im clicked")}
+      >
+        click me!!!
+      </button>
+    );
+    //()괄호안에 들어간 이름은 꼭  html에서 사용하는 태그이름을 적어야한다.
+
+    const Container = () => (
+      <div>
+        <Title />
+        <Button />
+        <Button />
+        <Button />
+      </div>
+      //랜더링 방법은 아래와 같이 코드전체를 넣는것과 같다. 더욱 간결하게 코드를 작성하자
+      //React Element를 함수 내에 담으면 Container에 함수를 넣어준거처럼 원하는만큼 사용할 수 있다.
+      //   <h3 id="title" onMouseEnter={() => console.log("mouse enter")}>
+      //   hello
+      // </h3>
+    );
+    //div태그를 렌더링하고있는 함수(컴포넌트)가 하나 있고 그 안에 Title/Button의 함수(컴포넌트)를 포함하고 잇다는 뜻
+    //(함수)컴포넌트의 첫글자는 무조건 대문자이여야 한다. 그렇지 않으면 React와 JSX가 html의 태그로 인식하여 반영한다.
+
+    ReactDOM.render(<Container />, root);
+    // babel을 이용하여 코드를 html로 랜더링 하는 방법
+  </script>
+</html>

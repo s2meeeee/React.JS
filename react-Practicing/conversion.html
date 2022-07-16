@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <div id="root"></div>
+  </body>
+  <script
+    crossorigin
+    src="https://unpkg.com/react@18/umd/react.production.min.js"
+  ></script>
+  <script
+    crossorigin
+    src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+  ></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    function App() {
+      const [amount, setAmount] = React.useState();
+      const [inverted, setInverted] = React.useState(false);
+      const onChange = (event) => {
+        setAmount(event.target.value); //데이터를 업데이트하는 방법은 setState함수를 써주는것이다.리렌더링
+      };
+      const reset = () => setAmount("");
+      const onFlip = () => {
+        reset();
+        setInverted((current) => !current);
+      }; //(!inverted)와 같은 의미 state함수의 변수를 그대로 써주는것은 좋지못하기 때문에 새로운 변수를 만들어준다.
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <div>
+            <label htmlFor="minutes">Minutes</label>
+            <input
+              value={inverted ? amount * 60 : amount} //input의 value를 state로 연결하면 input의 value수정하기가 좋다.
+              //if문이기 때문에 true를 받으면 앞에 문이 나오고 false를 받으면 else인 뒤에 문이 나온다.
+              id="minutes"
+              placeholder="Minutes"
+              type="number"
+              disabled={inverted} //inverted === true와 같은 의미}
+              onChange={onChange} //onchange 함수는 우리가 작성한 Javascript를 통해 변화가 일어났는지 탐지해줍니다 (이벤트리스너
+            />
+          </div>
+          <div>
+            <label htmlFor="hours">Hours</label>
+            <input
+              value={inverted ? amount : Math.round(amount / 60)} //분단위를 시로 바꾸기 위해 60나눠준다.
+              //inverted ? 이란 if문을 작성한 것이라고 보면된다.
+              //inverted ? amount <-만약 finverted상태라면? 단위변환을 보여주지말고 state에 있는 값을 보여라.
+              //활성화가 되어있는 상태라면 실시간으로 적어지는 상태를 보여라
+              id="hours"
+              placeholder="Hours"
+              type="number"
+              onChange={onChange}
+              disabled={!inverted} //inverted === false}동등연산자를 사용하여 false가 나오면 true가 됩니다.이와 같은 의미 결론적으로 답은 true!
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onFlip}>{inverted ? "Turn back" : "Invert"}</button>
+        </div>
+      );
+    }
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
